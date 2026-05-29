@@ -12,6 +12,7 @@ export type Product = {
   price: number; // paise
   images: string[];
   isDigital: boolean;
+  isFree?: boolean;
   stock: number;
   isActive: boolean;
   category?: string;

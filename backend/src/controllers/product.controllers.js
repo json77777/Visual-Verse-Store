@@ -26,6 +26,8 @@ const adminCreateProduct = asyncHandler(async (req, res) => {
   console.log("FILES:", req.files);
 
   const { title, description, price, isDigital, stock, category } = req.body;
+  // `isFree` may be sent as string "true" from multipart/form-data forms
+  const isFree = req.body?.isFree === "true" || req.body?.isFree === true || false;
 
   if (!title || !description || !price) {
     if (uploadJobId) failJob(uploadJobId, "Missing required fields");
@@ -145,6 +147,7 @@ const adminCreateProduct = asyncHandler(async (req, res) => {
     images: imageUrls,
     owner: req.user._id,
     isDigital: isDigitalProduct,
+    isFree,
     downloadUrl: downloadPublicId,
     stock: isDigitalProduct ? 1 : stock ?? 1,
     isActive: true,

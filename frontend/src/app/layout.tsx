@@ -1,3 +1,4 @@
+import React from "react";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import localFont from "next/font/local";
@@ -50,40 +51,42 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-screen flex flex-col bg-[#080808] text-neutral-50 font-dm-sans selection:bg-white/20 selection:text-white relative"
       >
-        <SmoothScroll>
-          <InitialLoader />
+        <React.Suspense fallback={null}>
+          <SmoothScroll>
+            <InitialLoader />
 
-          <GlobalBackground />
-          <CornerElements />
+            <GlobalBackground />
+            <CornerElements />
 
 
-          <div className="relative z-10 flex min-h-screen flex-col" suppressHydrationWarning>
+            <div className="relative z-10 flex min-h-screen flex-col" suppressHydrationWarning>
             <SiteHeader />
             <div className="vv-page-in flex flex-col flex-1 pt-28" suppressHydrationWarning>{children}</div>
             <SiteFooter />
           </div>
-          
-          <Toaster 
-            position="top-right"
-            offset={80}
-            gap={8}
-            toastOptions={{
-              style: {
-                borderRadius: '12px',
-                padding: '10px 18px',
-                fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: 'var(--font-dm-sans)',
-                minHeight: 'unset',
-                width: 'max-content',
-                maxWidth: '400px',
-                gap: '8px',
-              },
-              className: 'vv-toast',
-            }}
-            theme="dark"
-          />
-        </SmoothScroll>
+            
+            <Toaster 
+              position="top-right"
+              offset={80}
+              gap={8}
+              toastOptions={{
+                style: {
+                  borderRadius: '12px',
+                  padding: '10px 18px',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  fontFamily: 'var(--font-dm-sans)',
+                  minHeight: 'unset',
+                  width: 'max-content',
+                  maxWidth: '400px',
+                  gap: '8px',
+                },
+                className: 'vv-toast',
+              }}
+              theme="dark"
+            />
+          </SmoothScroll>
+        </React.Suspense>
       </body>
     </html>
   );

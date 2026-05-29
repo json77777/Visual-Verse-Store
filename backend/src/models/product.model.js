@@ -36,6 +36,10 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isFree: {
+      type: Boolean,
+      default: false,
+    },
     downloadUrl: {
       type: String, // protected / signed URL // cloudinary
     },
