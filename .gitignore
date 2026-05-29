@@ -1,0 +1,46 @@
+# Root Monorepo Ignores
+
+# Node / JS
+node_modules/
+.npm/
+
+# Environment Variables (CRITICAL)
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.local
+backend/.env
+
+# Sensitive Keys and Credentials
+rzp-key.csv
+backend/rzp-key.csv
+*.pem
+*.key
+secrets.json
+
+# Next.js / Build outputs
+.next/
+frontend/.next/
+out/
+build/
+dist/
+coverage/
+
+# OS / Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary / Cache
+.tmp/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

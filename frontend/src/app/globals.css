@@ -1,0 +1,312 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "RusticRoadway";
+  src: url("/assets/fonts/RusticRoadway.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Miltea";
+  src: url("/assets/fonts/Miltea.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ruthligos";
+  src: url("/assets/fonts/Ruthligos.ttf") format("truetype");
+  font-display: swap;
+}
+
+@theme inline {
+  --font-sans: var(--font-dm-sans), var(--font-helvetica-neue);
+  --font-dm-sans: var(--font-dm-sans);
+  --font-syne: var(--font-syne);
+  --font-brand: "RusticRoadway", var(--font-helvetica-neue);
+  --font-logo: "Miltea", var(--font-helvetica-neue);
+  --font-scroll: "Ruthligos", var(--font-helvetica-neue);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* ── Fix Chrome Autofill white background bug ────────────────── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s !important;
+  -webkit-text-fill-color: white !important;
+  color: white !important;
+}
+
+@layer base {
+  :root {
+    --vv-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --vv-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --vv-dur-1: 120ms;
+    --vv-dur-2: 220ms;
+    --vv-dur-3: 420ms;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* ── Global font assignments ────────────────────────────────── */
+
+  /* DM Sans is the base body font */
+  body {
+    font-family: var(--font-dm-sans), system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  /* Syne for all heading levels — DM Sans never goes below 700 in headings */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-syne), system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  /* Form inputs & interactive UI elements — DM Sans 400 */
+  input,
+  textarea,
+  select,
+  button {
+    font-family: var(--font-dm-sans), system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  @keyframes vv-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes vv-yoyo-down {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(6px);
+    }
+  }
+
+  @keyframes vv-alert-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+      filter: blur(2px);
+    }
+
+    60% {
+      opacity: 1;
+      transform: translateY(1px) scale(1.01);
+      filter: blur(0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes ambient-drift-1 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+      transform: translate(4%, -6%) scale(1.05);
+    }
+
+    66% {
+      transform: translate(-3%, 4%) scale(0.95);
+    }
+
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
+
+  @keyframes ambient-drift-2 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+      transform: translate(-5%, 6%) scale(0.95);
+    }
+
+    66% {
+      transform: translate(4%, -5%) scale(1.05);
+    }
+
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
+
+  @keyframes ambient-drift-3 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+      transform: translate(6%, 4%) scale(1.02);
+    }
+
+    66% {
+      transform: translate(-4%, -6%) scale(0.98);
+    }
+
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
+
+  .vv-page-in {
+    animation: vv-fade-up var(--vv-dur-3) var(--vv-ease-out) both;
+  }
+
+  .vv-soft-press {
+    transition: transform var(--vv-dur-1) var(--vv-ease-out);
+    will-change: transform;
+  }
+
+  .vv-soft-press:active {
+    transform: scale(0.985);
+  }
+
+  .vv-soft-hover {
+    transition: transform var(--vv-dur-2) var(--vv-ease-out);
+    will-change: transform;
+  }
+
+  @media (hover: hover) {
+    .vv-soft-hover:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .vv-card-hover {
+    transition:
+      transform var(--vv-dur-2) var(--vv-ease-out),
+      border-color var(--vv-dur-2) var(--vv-ease-in-out),
+      background-color var(--vv-dur-2) var(--vv-ease-in-out),
+      box-shadow var(--vv-dur-2) var(--vv-ease-in-out);
+    will-change: transform;
+  }
+
+  .vv-yoyo-down {
+    animation: vv-yoyo-down 1600ms var(--vv-ease-in-out) infinite;
+    will-change: transform;
+  }
+
+  .vv-alert-red {
+    animation: vv-alert-in 360ms var(--vv-ease-out) both;
+    border: 1px solid rgba(248, 113, 113, 0.35);
+    background: linear-gradient(180deg, rgba(127, 29, 29, 0.28), rgba(69, 10, 10, 0.34));
+    color: rgb(254, 202, 202);
+    box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.08), 0 10px 28px rgba(127, 29, 29, 0.22);
+  }
+
+  @media (hover: hover) {
+    .vv-card-hover:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .vv-page-in {
+    animation: none !important;
+  }
+
+  .vv-yoyo-down {
+    animation: none !important;
+  }
+
+  .vv-soft-press,
+  .vv-soft-hover,
+  .vv-card-hover,
+  .vv-alert-red {
+    transition: none !important;
+  }
+}
+
+/* ── Sonner Toast Overrides ── */
+/* Success (Green) */
+[data-sonner-toaster] [data-sonner-toast][data-type="success"] {
+  background: #22c55e !important;
+  border: 1px solid #16a34a !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+}
+[data-sonner-toaster] [data-sonner-toast][data-type="success"] [data-icon] svg {
+  color: #ffffff !important;
+}
+
+/* Error (Red) */
+[data-sonner-toaster] [data-sonner-toast][data-type="error"] {
+  background: #ef4444 !important;
+  border: 1px solid #dc2626 !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+}
+[data-sonner-toaster] [data-sonner-toast][data-type="error"] [data-icon] svg {
+  color: #ffffff !important;
+}
+
+/* Remove the close button & description for cleaner pills */
+[data-sonner-toaster] [data-sonner-toast] [data-close-button] {
+  display: none !important;
+}
+
+[data-sonner-toaster] [data-sonner-toast] [data-title] {
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.01em;
+}
+
+/* Fix right offset so it doesn't push too far left or hit scrollbar */
+[data-sonner-toaster][data-x-position="right"] {
+  right: 40px !important;
+}
+
+/* Horizontal slide-in from the right using translate transition */
+[data-sonner-toaster] [data-sonner-toast] {
+  translate: 120% 0 !important;
+  transition: translate 0.5s cubic-bezier(0.2, 0.9, 0.2, 1) !important;
+}
+
+[data-sonner-toaster] [data-sonner-toast][data-mounted="true"] {
+  translate: 0 0 !important;
+}
+
+[data-sonner-toaster] [data-sonner-toast][data-removed="true"] {
+  translate: 120% 0 !important;
+  opacity: 0 !important;
+}
