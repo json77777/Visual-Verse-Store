@@ -166,4 +166,4 @@ Recommendation: push code (and docs) to GitHub before creating production deploy
 
 ---
 
-If you'd like, I can: (1) generate `.env.example`, (2) create `DEPLOYMENT.md` with exact steps for Vercel + Render, and (3) push these changes to GitHub for you. Tell me which of those to do next.
+
