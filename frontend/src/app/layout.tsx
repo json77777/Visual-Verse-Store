@@ -33,9 +33,6 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Visual Verse Store",
   description: "Visual Verse Store",
-  icons: {
-    icon: "/logo/vvlogo-updated.png",
-  },
 };
 
 export default function RootLayout({
