@@ -9,9 +9,10 @@ export const env = {
   CORS_ORIGIN:process.env.CORS_ORIGIN,
 
   ACCESS_TOKEN_SECRET:process.env.ACCESS_TOKEN_SECRET,
-  ACCESS_TOKEN_EXPIRY:process.env.ACCESS_TOKEN_EXPIRY,
+  // expiry can be a string like '1h' or a number of seconds
+  ACCESS_TOKEN_EXPIRY:process.env.ACCESS_TOKEN_EXPIRY || '1h',
   REFRESH_TOKEN_SECRET:process.env.REFRESH_TOKEN_SECRET,
-  REFRESH_TOKEN_EXPIRY:process.env.REFRESH_TOKEN_EXPIRY,
+  REFRESH_TOKEN_EXPIRY:process.env.REFRESH_TOKEN_EXPIRY || '7d',
 
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
