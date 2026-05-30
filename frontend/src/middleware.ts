@@ -18,13 +18,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/profile', request.url));
   }
 
-  // If user is NOT authenticated and tries to access protected routes, redirect to login
-  if (isProtectedRoute && !isAuthenticated) {
-    const loginUrl = new URL('/login', request.url);
-    // Optional: add a redirect_to parameter to send them back after logging in
-    // loginUrl.searchParams.set('redirect_to', pathname);
-    return NextResponse.redirect(loginUrl);
-  }
+  // NOTE:
+  // Remove server-side redirects for protected routes so the App Router
+  // client can perform auth checks using backend cookies (cross-origin).
+  // Server-side middleware cannot see cookies set on the backend origin,
+  // which can cause false-positives in production when frontend and
+  // backend are on different domains. Let client-side code handle
+  // redirecting unauthenticated users to `/login` instead.
 
   return NextResponse.next();
 }
