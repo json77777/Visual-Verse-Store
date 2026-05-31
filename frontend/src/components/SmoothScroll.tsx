@@ -12,23 +12,65 @@ function LenisRefresh() {
   // 1. Handle route changes and initial load hashes
   useEffect(() => {
     if (!lenis) return;
-    
-    const timeoutId = setTimeout(() => {
+
+    let cancelled = false;
+
+    // Try to perform a safe resize + scroll after the page has loaded.
+    // Some users report the first visit renders late (images/fonts) which
+    // can shift layout after Lenis initializes. We wait for `load` and then
+    // retry a few times to find the hash target before falling back to top.
+    const doResizeAndScroll = () => {
+      if (!lenis) return;
       lenis.resize();
-      
+
       const hash = window.location.hash;
-      if (hash) {
-        const el = document.getElementById(hash.substring(1));
-        if (el) {
-          lenis.scrollTo(el, { immediate: false });
+
+      const tryScrollToHash = (retries = 10, delay = 120) => {
+        if (cancelled) return;
+        if (!hash) {
+          lenis.scrollTo(0, { immediate: true });
           return;
         }
-      }
-      
-      lenis.scrollTo(0, { immediate: true });
-    }, 100);
+
+        const id = hash.substring(1);
+        const el = document.getElementById(id);
+
+        if (el && (el.offsetHeight > 0 || el.getBoundingClientRect().height > 0)) {
+          // Target is present and has layout, scroll to it smoothly
+          lenis.scrollTo(el, { immediate: true });
+        } else if (retries > 0) {
+          // Retry after a short delay to allow images/fonts/layout to settle
+          setTimeout(() => tryScrollToHash(retries - 1, delay), delay);
+        } else {
+          // Give up and ensure we're at the top
+          lenis.scrollTo(0, { immediate: true });
+        }
+      };
+
+      tryScrollToHash();
+    };
+
+    if (document.readyState === "complete") {
+      // Page already loaded
+      doResizeAndScroll();
+    } else {
+      // Wait for load to ensure images/fonts finished
+      const onLoad = () => doResizeAndScroll();
+      window.addEventListener("load", onLoad, { once: true });
+
+      // Also kick a resize/scroll shortly after navigation in case load already fired
+      const shortTimeout = setTimeout(() => doResizeAndScroll(), 300);
+
+      return () => {
+        cancelled = true;
+        window.removeEventListener("load", onLoad);
+        clearTimeout(shortTimeout);
+      };
+    }
     
-    return () => clearTimeout(timeoutId);
+    return () => {
+      cancelled = true;
+    };
   }, [pathname, searchParams, lenis]);
 
   // 2. Intercept clicks on hash links to trigger Lenis smooth scroll

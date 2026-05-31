@@ -20,6 +20,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -102,14 +103,29 @@ export default function LoginPage() {
                 <span className="block font-dm-sans font-semibold text-[15px] tracking-tight text-white/70">
                   Password
                 </span>
-                <input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  type="password"
-                  className="mt-2 h-11 w-full rounded-md bg-white/4 px-3 font-dm-sans font-normal text-sm text-white outline-none ring-1 ring-white/10 focus:ring-white/30"
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                />
+                <div className="relative mt-2">
+                  <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type={showPassword ? "text" : "password"}
+                    className="h-11 w-full rounded-md bg-white/4 px-3 pr-16 font-dm-sans font-normal text-sm text-white outline-none ring-1 ring-white/10 focus:ring-white/30"
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute inset-y-0 right-0 flex items-center px-3 transition-opacity opacity-70 hover:opacity-100"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-pressed={showPassword}
+                  >
+                    {showPassword ? (
+                      <Image src="/icons/visible.png" alt="Hide password" width={18} height={18} className="invert" />
+                    ) : (
+                      <Image src="/icons/hide.png" alt="Show password" width={18} height={18} className="invert" />
+                    )}
+                  </button>
+                </div>
               </label>
 
 
