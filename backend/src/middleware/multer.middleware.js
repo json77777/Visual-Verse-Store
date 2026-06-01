@@ -37,7 +37,8 @@ export const upload = multer({
       "application/octet-stream",
       "text/plain",
       "application/vnd.rar",
-      "application/x-rar-compressed"
+      "application/x-rar-compressed",
+      "application/x-compressed"
     ];
 
     if (!allowedTypes.includes(file.mimetype)) {
