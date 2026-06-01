@@ -361,7 +361,7 @@ export default function AdminUploadPage() {
             <label className="mt-5 flex h-32 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-white/15 bg-neutral-900 text-center hover:bg-white/1">
               <input
                 type="file"
-                accept=".zip,.pdf,.txt,video/mp4"
+                accept=".zip,.rar,.pdf,.txt,video/mp4"
                 className="hidden"
                 onChange={(e) => setDigitalFile(e.target.files?.[0] ?? null)}
               />
@@ -375,7 +375,7 @@ export default function AdminUploadPage() {
               <p className="text-[12px] text-white/70">
                 {digitalFile ? digitalFile.name : "Drag and drop source file or browse"}
               </p>
-              <p className="text-[10px] tracking-[0.12em] text-white/35">MAX 500MB · ZIP, PDF, TXT, MP4</p>
+              <p className="text-[10px] tracking-[0.12em] text-white/35">MAX 500MB · ZIP, RAR, PDF, TXT, MP4</p>
             </label>
 
             <p className="mt-3 text-[10px] tracking-[0.12em] text-white/35">

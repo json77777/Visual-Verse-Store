@@ -509,7 +509,7 @@ export default function AdminEditProductDetailsPage({
               <label className="cursor-pointer">
                 <input
                   type="file"
-                  accept=".zip,.pdf,.txt,video/mp4"
+                  accept=".zip,.rar,.pdf,.txt,video/mp4"
                   className="hidden"
                   onChange={(e) => setReplaceDigitalFile(e.target.files?.[0] ?? null)}
                 />
