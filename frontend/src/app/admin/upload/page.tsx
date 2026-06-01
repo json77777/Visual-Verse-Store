@@ -375,7 +375,7 @@ export default function AdminUploadPage() {
               <p className="text-[12px] text-white/70">
                 {digitalFile ? digitalFile.name : "Drag and drop source file or browse"}
               </p>
-              <p className="text-[10px] tracking-[0.12em] text-white/35">MAX 500MB · ZIP, RAR, PDF, TXT, MP4</p>
+              <p className="text-[10px] tracking-[0.12em] text-white/35">MAX 100MB · ZIP, RAR, PDF, TXT, MP4</p>
             </label>
 
             <p className="mt-3 text-[10px] tracking-[0.12em] text-white/35">
