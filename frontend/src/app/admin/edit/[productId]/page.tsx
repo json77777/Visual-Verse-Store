@@ -292,6 +292,36 @@ export default function AdminEditProductDetailsPage({
     }
   }
 
+  async function hardDeleteProduct() {
+    if (!product) return;
+    const ok = window.confirm("Are you sure? This will permanently delete the product and it cannot be undone.");
+    if (!ok) return;
+
+    setError(null);
+    setIsSaving(true);
+
+    try {
+      await apiFetch<ApiResponse<Product>>(
+        `/api/v1/products/admin/hard-delete/${productId}`,
+        { method: "DELETE", redirectOn401: false },
+      );
+      toast.success("Product permanently deleted!");
+      router.push("/admin/edit");
+    } catch (e) {
+      if (e instanceof ApiFetchError) {
+        const msg = `${e.message} (HTTP ${e.status})`;
+        setError(msg);
+        toast.error(msg);
+      } else {
+        const msg = e instanceof Error ? e.message : "Failed to permanently delete product";
+        setError(msg);
+        toast.error(msg);
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
   return (
     <AdminShell
       title="Edit Product"
@@ -497,16 +527,26 @@ export default function AdminEditProductDetailsPage({
           <div className="mt-8 rounded-md border border-red-500/40 bg-red-500/5 p-4">
             <p className="font-syne font-bold text-lg text-red-500">Danger Zone</p>
             <p className="mt-1 text-[11px] text-red-300/80">
-              Permanently remove this product from the inventory and store.
+              Soft delete will hide this product from the store. Hard delete will permanently remove it from the database.
             </p>
-            <button
-              type="button"
-              className="mt-3 h-8 rounded-md border border-red-500/60 bg-neutral-900 px-3 text-[11px] tracking-[0.14em] text-red-300 transition-colors hover:bg-red-500/10"
-              onClick={() => void deleteProduct()}
-              disabled={isSaving || !product}
-            >
-              Delete Product
-            </button>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <button
+                type="button"
+                className="h-8 rounded-md border border-red-500/40 bg-neutral-900 px-3 text-[11px] tracking-[0.14em] text-red-300 transition-colors hover:bg-red-500/10"
+                onClick={() => void deleteProduct()}
+                disabled={isSaving || !product}
+              >
+                Soft Delete
+              </button>
+              <button
+                type="button"
+                className="h-8 rounded-md border border-red-500/60 bg-red-500/10 px-3 text-[11px] tracking-[0.14em] text-red-400 transition-colors hover:bg-red-500/20"
+                onClick={() => void hardDeleteProduct()}
+                disabled={isSaving || !product}
+              >
+                Hard Delete
+              </button>
+            </div>
           </div>
 
           {error ? <p className="mt-4 text-[12px] text-white/70">{error}</p> : null}

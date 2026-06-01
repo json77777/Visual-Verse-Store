@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { adminCreateProduct, adminGetProduct, adminListProducts, adminRemoveProduct, adminReplaceDigitalFile, adminToggleProductStatus, adminUpdateProduct, adminUploadCoverImage, adminUploadStatusSSE, getAllActiveProducts, getProductCategories, getSingleProduct } from "../controllers/product.controllers.js";
+import { adminCreateProduct, adminGetProduct, adminListProducts, adminRemoveProduct, adminHardDeleteProduct, adminReplaceDigitalFile, adminToggleProductStatus, adminUpdateProduct, adminUploadCoverImage, adminUploadStatusSSE, getAllActiveProducts, getProductCategories, getSingleProduct } from "../controllers/product.controllers.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 import { isAdmin } from "../middleware/admin.middleware.js";
 import { upload } from "../middleware/multer.middleware.js";
@@ -49,6 +49,10 @@ router.route("/admin/cover-image/:productId")
 // remove product
 router.route("/admin/remove/:productId")
 .patch(verifyJWT, isAdmin, adminRemoveProduct)
+
+// hard delete product
+router.route("/admin/hard-delete/:productId")
+.delete(verifyJWT, isAdmin, adminHardDeleteProduct)
 
 
 // toogle product active or not

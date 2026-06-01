@@ -13,6 +13,9 @@ function LenisRefresh() {
   useEffect(() => {
     if (!lenis) return;
 
+    // Forcefully remove any stray overflow locks on route change
+    document.body.style.overflow = "";
+
     let cancelled = false;
 
     // Try to perform a safe resize + scroll after the page has loaded.
@@ -29,6 +32,8 @@ function LenisRefresh() {
         if (cancelled) return;
         if (!hash) {
           lenis.scrollTo(0, { immediate: true });
+          // Next.js might inject DOM slightly after, force resize
+          setTimeout(() => lenis?.resize(), 150);
           return;
         }
 

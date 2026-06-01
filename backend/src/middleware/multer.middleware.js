@@ -34,7 +34,8 @@ export const upload = multer({
       "application/zip",
       "application/x-zip-compressed",
       "application/pdf",
-      "application/octet-stream"
+      "application/octet-stream",
+      "text/plain"
     ];
 
     if (!allowedTypes.includes(file.mimetype)) {

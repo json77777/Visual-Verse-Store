@@ -376,6 +376,27 @@ const adminRemoveProduct = asyncHandler(async (req, res) => {
   )
 })
 
+// hard delete product
+const adminHardDeleteProduct = asyncHandler(async (req, res) => {
+  const { productId } = req.params
+
+  const product = await Product.findById(productId)
+  if (!product) {
+    throw new ApiError(404, "Product not found")
+  }
+
+  await Product.findByIdAndDelete(productId)
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {},
+      "Product permanently deleted successfully"
+    )
+  )
+})
+
+
 
 export {
   adminCreateProduct,
@@ -390,4 +411,5 @@ export {
   adminGetProduct,
   adminListProducts,
   adminRemoveProduct,
+  adminHardDeleteProduct,
 }
